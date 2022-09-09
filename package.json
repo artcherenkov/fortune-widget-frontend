@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "fortune-wheel": "^1.0.0",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "imask": "^6.4.2"
   }
 }
