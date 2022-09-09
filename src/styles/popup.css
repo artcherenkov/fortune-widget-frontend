@@ -68,7 +68,7 @@
 
 .popup__spinner-container {
   display: flex;
-  align-items: center;
+  /*align-items: center;*/
 }
 
 .popup__spinner {
@@ -76,8 +76,7 @@
   margin-right: 32px;
 }
 
-.popup__trigger {
-  margin-top: 24px;
+.button {
   padding: 16px 24px;
   background: rgb(25, 130, 160);
   background: linear-gradient(
@@ -90,6 +89,23 @@
   border: none;
   font-size: 18px;
   font-weight: 500;
+
+  transition: 200ms ease;
+}
+
+.button:hover:not(:disabled) {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.3;
+  filter: grayscale(1);
+  cursor: progress;
+}
+
+.popup__trigger {
+  margin-top: 24px;
 }
 
 .popup__form {
@@ -112,6 +128,7 @@
   font-weight: 700;
   display: block;
   font-size: 14px;
+  margin-bottom: 4px;
 }
 
 .input__field {
@@ -123,6 +140,42 @@
   letter-spacing: 1px;
 }
 
+.input__field:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 .popup__highlight-text {
   font-weight: bold;
+}
+
+.win {
+}
+
+.win__title {
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+}
+
+.win__item {
+  font-weight: 700;
+}
+
+.win__link {
+  font-family: "Montserrat", sans-serif;
+  color: white;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 12px;
+  border: 2px solid rgba(25, 130, 160, 1);
+  margin-bottom: 24px;
+  text-align: center;
+  border-radius: 8px;
+  color: rgba(25, 130, 160, 1);
+  font-size: 18px;
+}
+
+.win__button {
 }

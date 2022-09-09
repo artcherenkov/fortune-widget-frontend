@@ -28,9 +28,13 @@ class Widget {
   _triggerSelector: string;
 
   _rootElement: HTMLElement;
-  _triggerElement: HTMLElement;
+  _triggerElement: HTMLButtonElement;
   _popupLayoutElement: HTMLDivElement;
   _formElement: HTMLFormElement;
+  _spinnerContainerElement: HTMLElement;
+  _spinButtonElement: HTMLButtonElement;
+  _inputElements: HTMLInputElement[];
+  _spinMoreBtnElement: HTMLButtonElement;
 
   _popupElement: HTMLDivElement;
   _fortuneWheel: any;
@@ -40,11 +44,13 @@ class Widget {
     this._rootSelector = rootSelector;
     this._triggerSelector = triggerSelector;
 
-    this.open = this.open.bind(this);
+    this.render = this.render.bind(this);
     this.close = this.close.bind(this);
     this._onFormSubmit = this._onFormSubmit.bind(this);
     this._onSpinStart = this._onSpinStart.bind(this);
     this._onSpinEnd = this._onSpinEnd.bind(this);
+    this._init = this._init.bind(this);
+    this._onSpinMoreBtnClick = this._onSpinMoreBtnClick.bind(this);
 
     this._setupEventListeners = this._setupEventListeners.bind(this);
   }
@@ -62,7 +68,18 @@ class Widget {
     this._popupLayoutElement = this._popupElement.querySelector(
       `.${ECssClass.PopupLayout}`
     );
-    this._formElement = document.querySelector(`.${ECssClass.PopupForm}`);
+    this._formElement = this._popupElement.querySelector(
+      `.${ECssClass.PopupForm}`
+    );
+    this._spinnerContainerElement = this._popupElement.querySelector(
+      ".popup__spinner-container"
+    );
+    this._spinButtonElement = this._popupElement.querySelector(
+      SPINNER_TRIGGER_SELECTOR
+    );
+    this._inputElements = Array.from(
+      this._formElement.querySelectorAll(".input__field")
+    );
 
     const phoneInput = this._popupElement.querySelector(
       "#phone"
@@ -78,29 +95,45 @@ class Widget {
 
   render() {
     this._init();
-  }
 
-  open() {
-    this._popupElement.classList.add(ECssClass.PopupOpen);
+    setTimeout(() => {
+      this._popupElement.classList.add(ECssClass.PopupOpen);
+    }, 10);
   }
 
   close() {
+    this._popupElement.remove();
     this._popupElement.classList.remove(ECssClass.PopupOpen);
   }
 
   _onFormSubmit(evt: FormDataEvent) {
     evt.preventDefault();
+    this._spinButtonElement.disabled = true;
+    this._inputElements.forEach((elem) => (elem.disabled = true));
+
+    setTimeout(() => {
+      this._fortuneWheel.spin();
+    }, 2000);
   }
 
   _setupEventListeners() {
     this._popupLayoutElement.addEventListener("click", this.close);
-    this._triggerElement.addEventListener("click", this.open);
     this._formElement.addEventListener("submit", this._onFormSubmit);
+  }
+
+  _createWinTemplate({ text, url }: { text: string; url: string }) {
+    return `
+      <div class="win">
+        <h2 class="win__title">Поздравляем! Вы выиграли <span class="win__item">${text}</span></h2>
+        <a class="win__link" href="${url}" target="_blank" >Забрать приз</a>
+        <button class="win__button button">Крутить ещё раз</button>
+      </div>
+    `.trim();
   }
 
   _createWidgetTemplate() {
     return `
-      <div class="popup popup_open">
+      <div class="popup">
         <div class="popup__layout"></div>
         <div class="popup__content">
           <div class="popup__header">
@@ -109,25 +142,56 @@ class Widget {
           </div>
           <div class="popup__spinner-container">
             <div id="spinner" class="popup__spinner"></div>
-            <form class="popup__form">
-              <div class="input">
-                <label class="input__label" for="name">Имя*</label>
-                <input id="name" class="input__field" type="text" placeholder="John Doe">
-              </div>              
-              <div class="input">
-                <label class="input__label" for="phone">Телефон*</label>
-                <input id="phone" class="input__field" type="text" placeholder="+7 (000) 000-00-00">
-              </div>              
-              <div class="input">
-                <label class="input__label" for="city">Город*</label>
-                <input id="city" class="input__field" type="text" placeholder="Москва">
-              </div>
-              <button class="popup__trigger">Крутить барабан</button>
-            </form>
+            ${this._createFormTemplate()}
           </div>
         </div>
       </div>  
     `.trim();
+  }
+
+  _createFormTemplate() {
+    return `
+    <form class="popup__form">
+      <div class="input">
+        <label class="input__label" for="name">Имя*</label>
+        <input id="name" class="input__field" type="text" placeholder="John Doe" required>
+      </div>              
+      <div class="input">
+        <label class="input__label" for="phone">Телефон*</label>
+        <input id="phone" class="input__field" type="text" placeholder="+7 (000) 000-00-00" required>
+      </div>              
+      <div class="input">
+        <label class="input__label" for="city">Город*</label>
+        <input id="city" class="input__field" type="text" placeholder="Москва" required>
+      </div>
+      <button class="popup__trigger button">Крутить барабан</button>
+    </form>
+    `.trim();
+  }
+
+  _onSpinMoreBtnClick() {
+    this._spinnerContainerElement.removeChild(
+      this._spinnerContainerElement.children[1]
+    );
+    this._spinnerContainerElement.insertAdjacentHTML(
+      "beforeend",
+      this._createFormTemplate()
+    );
+    this._formElement = this._popupElement.querySelector(
+      `.${ECssClass.PopupForm}`
+    );
+    this._spinButtonElement = this._popupElement.querySelector(
+      SPINNER_TRIGGER_SELECTOR
+    );
+    this._inputElements = Array.from(
+      this._formElement.querySelectorAll(".input__field")
+    );
+    this._formElement.addEventListener("submit", this._onFormSubmit);
+    const phoneInput = this._formElement.querySelector("#phone") as HTMLElement;
+
+    IMask(phoneInput, {
+      mask: "+{7} (000) 000-00-00",
+    });
   }
 
   _onSpinStart() {
@@ -135,6 +199,19 @@ class Widget {
   }
 
   _onSpinEnd(prize: TPrize) {
+    const { text, url } = prize;
+    this._spinnerContainerElement.removeChild(
+      this._spinnerContainerElement.children[1]
+    );
+    this._spinnerContainerElement.insertAdjacentHTML(
+      "beforeend",
+      this._createWinTemplate({ text, url })
+    );
+    this._spinMoreBtnElement = this._popupElement.querySelector(".win__button");
+    this._spinMoreBtnElement.addEventListener(
+      "click",
+      this._onSpinMoreBtnClick
+    );
     console.log("выигрыш: " + prize.text);
   }
 

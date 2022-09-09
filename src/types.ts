@@ -1,11 +1,12 @@
 export interface IWidget {
   rootSelector: string;
   triggerSelector: string;
-  prizes: { color: string; text: string }[];
+  prizes: TPrize[];
 }
 
 export type TPrize = {
   text: string;
+  url: string;
   color: string;
   textColor: string;
 };
