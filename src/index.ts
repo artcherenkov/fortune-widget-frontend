@@ -26,6 +26,7 @@ class Widget {
   _prizes: any;
   _rootSelector: string;
   _triggerSelector: string;
+  _backendUrl: string;
 
   _rootElement: HTMLElement;
   _triggerElement: HTMLButtonElement;
@@ -39,10 +40,11 @@ class Widget {
   _popupElement: HTMLDivElement;
   _fortuneWheel: any;
 
-  constructor({ rootSelector, triggerSelector, prizes }: IWidget) {
+  constructor({ rootSelector, triggerSelector, prizes, backendUrl }: IWidget) {
     this._prizes = prizes;
     this._rootSelector = rootSelector;
     this._triggerSelector = triggerSelector;
+    this._backendUrl = backendUrl;
 
     this.render = this.render.bind(this);
     this.close = this.close.bind(this);
@@ -111,9 +113,23 @@ class Widget {
     this._spinButtonElement.disabled = true;
     this._inputElements.forEach((elem) => (elem.disabled = true));
 
-    setTimeout(() => {
+    const data = JSON.stringify({
+      name: "test widget",
+      ...this._inputElements.reduce((acc, elem) => {
+        return { ...acc, [elem.name]: elem.value };
+      }, {}),
+    });
+
+    fetch(this._backendUrl, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: data,
+    }).then(() => {
       this._fortuneWheel.spin();
-    }, 2000);
+    });
   }
 
   _setupEventListeners() {
@@ -154,15 +170,15 @@ class Widget {
     <form class="popup__form">
       <div class="input">
         <label class="input__label" for="name">Имя*</label>
-        <input id="name" class="input__field" type="text" placeholder="John Doe" required>
+        <input id="name" name="fio" class="input__field" type="text" placeholder="John Doe" required>
       </div>              
       <div class="input">
         <label class="input__label" for="phone">Телефон*</label>
-        <input id="phone" class="input__field" type="text" placeholder="+7 (000) 000-00-00" required>
+        <input id="phone" name="phone" class="input__field" type="text" placeholder="+7 (000) 000-00-00" required>
       </div>              
       <div class="input">
         <label class="input__label" for="city">Город*</label>
-        <input id="city" class="input__field" type="text" placeholder="Москва" required>
+        <input id="city" name="city" class="input__field" type="text" placeholder="Москва" required>
       </div>
       <button class="popup__trigger button">Крутить барабан</button>
     </form>

@@ -2,6 +2,7 @@ export interface IWidget {
   rootSelector: string;
   triggerSelector: string;
   prizes: TPrize[];
+  backendUrl: string;
 }
 
 export type TPrize = {
