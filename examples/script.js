@@ -54,23 +54,22 @@ const onWidgetScriptLoad = () => {
 
 onWidgetScriptLoad();
 
-// const onWheelScriptLoad = () => {
-//   console.log("wheel script loaded");
-//   const widgetScript = document.createElement("script");
-//   widgetScript.type = "text/javascript";
-//   widgetScript.defer = true;
-//   // widgetScript.src = "https://unpkg.com/fortune-widget@1.0.0/dist/index.js";
-//   wheelScript.src = "../dist/index.js";
-//
-//   widgetScript.onload = onWidgetScriptLoad;
-//
-//   document.head.appendChild(widgetScript);
-// };
-//
-// const wheelScript = document.createElement("script");
-// wheelScript.type = "text/javascript";
-// wheelScript.defer = true;
-// wheelScript.src = "https://unpkg.com/fortune-wheel@2.0.10/dist/index.js";
-// wheelScript.onload = onWheelScriptLoad;
-//
-// document.head.appendChild(wheelScript);
+const onWheelScriptLoad = () => {
+  console.log("wheel script loaded");
+  const widgetScript = document.createElement("script");
+  widgetScript.type = "text/javascript";
+  widgetScript.defer = true;
+  widgetScript.src = "https://unpkg.com/fortune-widget@1.0.1/dist/index.js";
+
+  widgetScript.onload = onWidgetScriptLoad;
+
+  document.head.appendChild(widgetScript);
+};
+
+const wheelScript = document.createElement("script");
+wheelScript.type = "text/javascript";
+wheelScript.defer = true;
+wheelScript.src = "https://unpkg.com/fortune-wheel@2.0.11/dist/index.js";
+wheelScript.onload = onWheelScriptLoad;
+
+document.head.appendChild(wheelScript);
