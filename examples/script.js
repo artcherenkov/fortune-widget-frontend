@@ -46,9 +46,8 @@ const onWidgetScriptLoad = () => {
 const widgetScript = document.createElement("script");
 widgetScript.type = "text/javascript";
 widgetScript.defer = true;
-// widgetScript.src =
-//   "https://cdn.jsdelivr.net/npm/fortune-widget@2.0.3/dist/index.js";
-widgetScript.src = "../dist/index.js";
+widgetScript.src = "https://unpkg.com/fortune-widget@2.0.3/dist/index.js";
+// widgetScript.src = "../dist/index.js";
 widgetScript.onload = onWidgetScriptLoad;
 
 document.head.appendChild(widgetScript);
