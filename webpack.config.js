@@ -32,9 +32,13 @@ module.exports = {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.svg$/,
+        loader: "svg-inline-loader",
+      },
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".ts", ".js"],
   },
 };

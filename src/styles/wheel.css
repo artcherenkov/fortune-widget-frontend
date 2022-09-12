@@ -94,15 +94,6 @@
   background-color: white;
 }
 
-svg {
-  /*visibility: hidden;*/
-}
-
-path {
-  fill: transparent;
-  stroke: black;
-}
-
 @media screen and (max-width: 400px) {
   .spinner-container {
     --size: 240px;

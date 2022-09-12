@@ -1,10 +1,10 @@
 const ROOT_SELECTOR = "#widget";
-const TRIGGER_SELECTOR = "button";
+const TRIGGER_SELECTOR = ".widget-trigger";
+const BACKEND_URL = "https://test.com";
+const WIDGET_NAME = "test-widget";
 
 const onWidgetScriptLoad = () => {
   console.log("widget script loaded");
-
-  const trigger = document.querySelector(TRIGGER_SELECTOR);
 
   const widget = new Widget({
     prizes: [
@@ -57,23 +57,21 @@ const onWidgetScriptLoad = () => {
         textColor: "#E6FFFF",
       },
     ],
+    widgetName: WIDGET_NAME,
     rootSelector: ROOT_SELECTOR,
     triggerSelector: TRIGGER_SELECTOR,
-    backendUrl: "test.com",
+    backendUrl: BACKEND_URL,
   });
 
-  widget.render();
-
-  trigger.addEventListener("click", () => {
-    widget.render();
-  });
+  const trigger = document.querySelector(TRIGGER_SELECTOR);
+  trigger.addEventListener("click", () => widget.render());
 };
 
 const widgetScript = document.createElement("script");
 widgetScript.type = "text/javascript";
 widgetScript.defer = true;
-// widgetScript.src = "https://unpkg.com/fortune-widget@2.0.4/dist/index.js";
-widgetScript.src = "../dist/index.js";
+widgetScript.src = "https://unpkg.com/fortune-widget@2.0.7/dist/index.js";
+// widgetScript.src = "../dist/index.js";
 widgetScript.onload = onWidgetScriptLoad;
 
 document.head.appendChild(widgetScript);

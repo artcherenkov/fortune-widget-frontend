@@ -12,6 +12,8 @@ enum ECssClass {
   PopupForm = "popup__form",
 }
 
+const icon = require("../icon.svg");
+
 const SPINNER_ROOT_SELECTOR = "#spinner";
 const SPINNER_TRIGGER_SELECTOR = ".popup__trigger";
 
@@ -26,6 +28,7 @@ export default class Widget {
   _rootSelector: string;
   _triggerSelector: string;
   _backendUrl: string;
+  _widgetName: string;
 
   _rootElement: HTMLElement;
   _triggerElement: HTMLButtonElement;
@@ -40,11 +43,23 @@ export default class Widget {
   _popupElement: HTMLDivElement;
   _fortuneWheel: any;
 
-  constructor({ rootSelector, triggerSelector, prizes, backendUrl }: IWidget) {
+  constructor({
+    widgetName,
+    rootSelector,
+    triggerSelector,
+    prizes,
+    backendUrl,
+  }: IWidget) {
+    this._widgetName = widgetName;
     this._prizes = prizes;
     this._rootSelector = rootSelector;
     this._triggerSelector = triggerSelector;
     this._backendUrl = backendUrl;
+
+    this._triggerElement = document.querySelector(this._triggerSelector);
+    this._triggerElement.removeAttribute("style");
+    console.log(this._triggerElement);
+    this._renderTriggerButton();
 
     this.render = this.render.bind(this);
     this.close = this.close.bind(this);
@@ -118,7 +133,7 @@ export default class Widget {
     const wonPrize = this._fortuneWheel.prepareWheel();
 
     const data = JSON.stringify({
-      name: "test widget",
+      name: this._widgetName,
       prize: wonPrize.text,
       ...this._inputElements.reduce((acc, elem) => {
         return { ...acc, [elem.name]: elem.value };
@@ -169,6 +184,19 @@ export default class Widget {
         </div>
       </div>  
     `.trim();
+  }
+
+  _renderTriggerButton() {
+    document
+      .querySelector(this._triggerSelector)
+      .insertAdjacentHTML("afterbegin", this._createTriggerButtonTemplate());
+  }
+
+  _createTriggerButtonTemplate() {
+    return `
+        ${icon}
+        <p>Испытайте удачу!</p>
+    `;
   }
 
   _createFormTemplate() {
