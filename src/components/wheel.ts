@@ -229,8 +229,22 @@ export default class FortuneWheel {
     textElement.textContent = text;
     textElement.style.color = textColor;
 
+    const fontSize: { [k: number]: number } = {
+      2: 16,
+      3: 16,
+      4: 18,
+      5: 18,
+      6: 21,
+      7: 21,
+      8: 24,
+      9: 24,
+    };
+
     element.append(textElement);
     element.setAttribute("style", `--rotate: ${rotation}deg`);
+    textElement.style.fontSize = `calc(var(--size) / ${
+      fontSize[this._prizes.length]
+    })`;
 
     return element;
   }

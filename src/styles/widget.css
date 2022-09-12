@@ -35,12 +35,12 @@
 .popup__content {
   padding: 24px;
 
-  width: 600px;
-  min-height: 500px;
-  max-height: 80vh;
-  max-width: 80vw;
-  overflow-y: auto;
-  overflow-x: hidden;
+  box-sizing: border-box;
+  width: 650px;
+  /*min-height: 500px;*/
+  max-height: 90vh;
+  max-width: 90vw;
+  overflow: hidden;
 
   position: relative;
   z-index: 20;
@@ -62,9 +62,11 @@
   text-transform: uppercase;
   font-size: 28px;
   color: #fff;
+  margin: 0 0 16px;
 }
 
 .popup__text {
+  margin: 0 0 16px;
   font-family: "Montserrat", sans-serif;
   font-size: 24px;
   color: #fff;
@@ -80,6 +82,7 @@
 }
 
 .button {
+  text-transform: uppercase;
   padding: 16px 24px;
   background: rgb(25, 130, 160);
   background: linear-gradient(
@@ -91,11 +94,13 @@
   color: white;
   border: none;
   font-size: 18px;
-  font-weight: 500;
 
   width: 190px;
 
   transition: 200ms ease;
+  font-weight: bold;
+
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .button:hover:not(:disabled) {
@@ -171,21 +176,33 @@
   text-decoration: none;
   font-weight: bold;
   padding: 12px;
-  border: 2px solid rgba(25, 130, 160, 1);
+  border: none;
   margin-bottom: 16px;
   text-align: center;
   border-radius: 8px;
   color: rgba(25, 130, 160, 1);
   font-size: 18px;
   width: 190px;
+  text-transform: uppercase;
+  background: rgb(42, 183, 193);
+  background: linear-gradient(
+    270deg,
+    rgba(42, 183, 193, 1) 0%,
+    rgba(110, 206, 214, 1) 80%,
+    rgba(141, 217, 223, 1) 100%
+  );
+  color: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+  transition: 200ms;
 }
 
 .win__link:hover {
   opacity: 0.3;
-  transition: 200ms;
 }
 
 .win__button {
+  margin-bottom: 24px;
 }
 
 @media screen and (max-width: 768px) {
@@ -193,8 +210,22 @@
     margin: 0;
   }
 
+  .button,
+  .win__link {
+    width: 100%;
+  }
+
+  .button {
+    font-size: 14px;
+  }
+
+  .win__link {
+    font-size: 16px;
+  }
+
   .popup__content {
     padding: 12px;
+    overflow-y: auto;
   }
 
   .popup__spinner-container {

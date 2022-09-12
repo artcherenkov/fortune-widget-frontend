@@ -35,6 +35,7 @@ export default class Widget {
   _spinButtonElement: HTMLButtonElement;
   _inputElements: HTMLInputElement[];
   _spinMoreBtnElement: HTMLButtonElement;
+  _popupContentElement: HTMLElement;
 
   _popupElement: HTMLDivElement;
   _fortuneWheel: any;
@@ -72,6 +73,8 @@ export default class Widget {
     this._formElement = this._popupElement.querySelector(
       `.${ECssClass.PopupForm}`
     );
+    this._popupContentElement =
+      this._popupElement.querySelector(".popup__content");
     this._spinnerContainerElement = this._popupElement.querySelector(
       ".popup__spinner-container"
     );
@@ -130,7 +133,8 @@ export default class Widget {
       },
       body: data,
     }).then(() => {
-      this._fortuneWheel.spin();
+      this._popupContentElement.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => this._fortuneWheel.spin(), 300);
     });
   }
 
@@ -217,6 +221,7 @@ export default class Widget {
   }
 
   _onSpinEnd(prize: TPrize) {
+    this._popupContentElement.scrollTo({ top: 1000, behavior: "smooth" });
     const { text, url } = prize;
     this._spinnerContainerElement.removeChild(
       this._spinnerContainerElement.children[1]
