@@ -1,6 +1,6 @@
 {
   "name": "fortune-widget",
-  "version": "2.0.8",
+  "version": "2.0.12",
   "description": "",
   "main": "dist/index.js",
   "keywords": [],
@@ -11,7 +11,8 @@
     "package.json"
   ],
   "scripts": {
-    "build": "npx webpack"
+    "build": "rm -rf ./dist && npx webpack",
+    "publish:custom": "npm run build && npm publish"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",

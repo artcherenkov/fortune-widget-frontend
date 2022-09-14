@@ -2,6 +2,7 @@ import { IWidget, TPrize } from "../types";
 import IMask from "imask";
 
 import "../styles/style.css";
+import "../styles/wheel-overlay.css";
 import "../styles/widget.css";
 import FortuneWheel from "./wheel";
 
@@ -12,7 +13,7 @@ enum ECssClass {
   PopupForm = "popup__form",
 }
 
-const icon = require("../icon.svg");
+const icon = require("../icon-wheel.svg");
 
 const SPINNER_ROOT_SELECTOR = "#spinner";
 const SPINNER_TRIGGER_SELECTOR = ".popup__trigger";
@@ -249,7 +250,9 @@ export default class Widget {
   }
 
   _onSpinEnd(prize: TPrize) {
-    this._popupContentElement.scrollTo({ top: 1000, behavior: "smooth" });
+    if (window.innerWidth <= 768) {
+      this._popupContentElement.scrollTo({ top: 1000, behavior: "smooth" });
+    }
     const { text, url } = prize;
     this._spinnerContainerElement.removeChild(
       this._spinnerContainerElement.children[1]
@@ -264,6 +267,11 @@ export default class Widget {
       this._onSpinMoreBtnClick
     );
     console.log("выигрыш: " + prize.text);
+
+    // @ts-ignore
+    startConfetti(".popup__content");
+    // @ts-ignore
+    setTimeout(stopConfetti, 3000);
   }
 
   _renderFortuneWheel() {

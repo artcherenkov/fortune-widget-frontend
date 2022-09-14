@@ -47,6 +47,7 @@ export default class FortuneWheel {
   _tickerElement: HTMLSpanElement;
   _innerCircleElement: HTMLSpanElement;
   _triggerElement: HTMLElement;
+  _spinnerOverlayElement: HTMLElement;
 
   _spinnerElementStyles: CSSStyleDeclaration;
   _prizeElements: HTMLLIElement[] = [];
@@ -90,7 +91,9 @@ export default class FortuneWheel {
     this._setEventListeners();
 
     this._spinnerElementStyles = window.getComputedStyle(this._spinnerElement);
-    this._spinnerElement.style.background = this._createConicGradientStyles();
+    this._spinnerElement.style.background =
+      "radial-gradient(50% 50% at 50% 50%,rgba(230, 255, 255, 0.4) 0%,rgba(217, 217, 217, 0) 100%)," +
+      this._createConicGradientStyles();
 
     this._currentSliceIdx = this._getCurrentSliceIdx();
   }
@@ -175,8 +178,11 @@ export default class FortuneWheel {
   }
 
   spin() {
-    this._spinnerElement.style.transform = `rotate(${this._spinertia}deg)`;
+    const rotateStyle = `rotate(${this._spinertia}deg)`;
+    this._spinnerElement.style.transform = rotateStyle;
+    this._spinnerOverlayElement.style.transform = rotateStyle;
     this._spinnerElement.classList.add("is-spinning");
+    this._spinnerOverlayElement.classList.add("is-spinning");
 
     this._spin();
   }
@@ -216,6 +222,13 @@ export default class FortuneWheel {
   _createInnerCircleElement() {
     const element = document.createElement("span");
     element.classList.add(ECssClass.InnerCircle);
+
+    return element;
+  }
+
+  _createSpinnerOverlayElement() {
+    const element = document.createElement("span");
+    element.classList.add("spinner-overlay");
 
     return element;
   }
@@ -261,6 +274,7 @@ export default class FortuneWheel {
     this._spinnerElement = this._createSpinnerElement();
     this._tickerElement = this._createTickerElement();
     this._innerCircleElement = this._createInnerCircleElement();
+    this._spinnerOverlayElement = this._createSpinnerOverlayElement();
 
     this._prizeElements = this._createPrizeElements();
 
@@ -268,6 +282,7 @@ export default class FortuneWheel {
     this._spinnerContainerElement.append(this._spinnerElement);
     this._spinnerContainerElement.append(this._tickerElement);
     this._spinnerContainerElement.append(this._innerCircleElement);
+    this._spinnerContainerElement.append(this._spinnerOverlayElement);
 
     this._rootElement.append(this._spinnerContainerElement);
   }
