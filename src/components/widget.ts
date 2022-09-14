@@ -162,7 +162,7 @@ export default class Widget {
   _createWinTemplate({ text, url }: { text: string; url: string }) {
     return `
       <div class="win">
-        <h2 class="win__title">Поздравляем! Вы выиграли приз <span class="win__item">"${text}"</span></h2>
+        <h2 class="win__title">Поздравляем!<br />Вы выиграли приз <span class="win__item">"${text}"</span></h2>
         <a class="win__link" href="${url}" target="_blank" >Забрать приз</a>
         <button class="win__button button">Крутить ещё раз</button>
       </div>
@@ -176,7 +176,7 @@ export default class Widget {
         <div class="popup__content">
           <div class="popup__header">
             <h2 class="popup__title">Испытай удачу</h2>
-            <p class="popup__text">Выиграйте <span class="popup__highlight-text">3000₽</span> на лазерную эпиляцию или другие призы</p>
+            <p class="popup__text">Выиграйте <span class="popup__highlight-text">3000₽</span> на лазерную эпиляцию<br/>или другие призы</p>
           </div>
           <div class="popup__spinner-container">
             <div id="spinner" class="popup__spinner"></div>
