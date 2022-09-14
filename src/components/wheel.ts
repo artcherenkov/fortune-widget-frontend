@@ -159,6 +159,10 @@ export default class FortuneWheel {
     this._spinnerElement.style.transform = `rotate(${
       this._spinertia % 360
     }deg)`;
+    this._spinnerOverlayElement.classList.remove("is-spinning");
+    this._spinnerOverlayElement.style.transform = `rotate(${
+      this._spinertia % 360
+    }deg)`;
 
     this._spinertia = 0;
 
