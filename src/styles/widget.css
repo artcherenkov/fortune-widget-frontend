@@ -37,7 +37,7 @@
 
   box-sizing: border-box;
   width: 650px;
-  max-height: 90vh;
+  max-height: 80vh;
   max-width: 90vw;
   overflow: hidden;
 
@@ -106,7 +106,7 @@
   transition: 200ms ease;
   font-weight: bold;
 
-  filter: drop-shadow(1px 3px 4px rgba(0, 0, 0, 0.46));
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.46);
 }
 
 .button:hover:not(:disabled) {
@@ -206,11 +206,11 @@
   text-transform: uppercase;
   background: rgb(42, 183, 193);
   color: white;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
   background: linear-gradient(-90deg, #1f8fae 0%, #4de1eb 100%);
 
-  filter: drop-shadow(1px 3px 4px rgba(0, 0, 0, 0.46));
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.46);
+
   transition: 200ms;
 }
 

@@ -116,6 +116,10 @@ export default class Widget {
   render() {
     this._init();
 
+    this._popupLayoutElement.addEventListener("touchmove", (evt) =>
+      evt.preventDefault()
+    );
+
     setTimeout(() => {
       this._popupElement.classList.add(ECssClass.PopupOpen);
     }, 10);
@@ -251,7 +255,7 @@ export default class Widget {
 
   _onSpinEnd(prize: TPrize) {
     if (window.innerWidth <= 768) {
-      this._popupContentElement.scrollTo({ top: 1000, behavior: "smooth" });
+      this._popupContentElement.scrollTo({ top: 100, behavior: "smooth" });
     }
     const { text, url } = prize;
     this._spinnerContainerElement.removeChild(
