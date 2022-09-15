@@ -10,6 +10,7 @@ const onWidgetScriptLoad = () => {
     prizes: [
       {
         text: "Лазерная эпиляция бикини",
+        fullText: "Лазерная эпиляция бикинииииииииииии",
         url: "https://google.com",
         color: "rgb(30,157,178)",
         textColor: "#E6FFFF",
@@ -22,36 +23,42 @@ const onWidgetScriptLoad = () => {
       },
       {
         text: "Лазерная эпиляция подмышек",
+        fullText: "Лазерная эпиляция подмышеккккккккк",
         url: "https://google.com",
         color: "rgb(42,183,193)",
         textColor: "#E6FFFF",
       },
       {
         text: "Голени",
+        fullText: "Голениииииииииии",
         url: "https://google.com",
         color: "rgb(30,157,178)",
         textColor: "#E6FFFF",
       },
       {
         text: "Все тело",
+        fullText: "Все телоооооооооо",
         url: "https://google.com",
         color: "#E6FFFF",
         textColor: "#1E96B4",
       },
       {
         text: "Лазерная эпиляция подмышек",
+        fullText: "Лазерная эпиляция подмышеккккккккккккккккк",
         url: "https://google.com",
         color: "rgb(42,183,193)",
         textColor: "#E6FFFF",
       },
       {
         text: "Все тело",
+        fullText: "Все телооооооооооо",
         url: "https://google.com",
         color: "#E6FFFF",
         textColor: "#1E96B4",
       },
       {
         text: "Лазерная эпиляция подмышек",
+        fullText: "Лазерная эпиляция подмышекекекекеке",
         url: "https://google.com",
         color: "rgb(42,183,193)",
         textColor: "#E6FFFF",
@@ -70,7 +77,7 @@ const onWidgetScriptLoad = () => {
 const widgetScript = document.createElement("script");
 widgetScript.type = "text/javascript";
 widgetScript.defer = true;
-widgetScript.src = "https://unpkg.com/fortune-widget@2.0.15";
+widgetScript.src = "https://unpkg.com/fortune-widget@2.0.16";
 // widgetScript.src = "../dist/index.js";
 widgetScript.onload = onWidgetScriptLoad;
 

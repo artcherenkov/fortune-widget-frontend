@@ -257,13 +257,13 @@ export default class Widget {
     if (window.innerWidth <= 768) {
       this._popupContentElement.scrollTo({ top: 100, behavior: "smooth" });
     }
-    const { text, url } = prize;
+    const { fullText, url } = prize;
     this._spinnerContainerElement.removeChild(
       this._spinnerContainerElement.children[1]
     );
     this._spinnerContainerElement.insertAdjacentHTML(
       "beforeend",
-      this._createWinTemplate({ text, url })
+      this._createWinTemplate({ text: fullText, url })
     );
     this._spinMoreBtnElement = this._popupElement.querySelector(".win__button");
     this._spinMoreBtnElement.addEventListener(

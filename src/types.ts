@@ -8,6 +8,7 @@ export interface IWidget {
 
 export type TPrize = {
   text: string;
+  fullText: string;
   url: string;
   color: string;
   textColor: string;
