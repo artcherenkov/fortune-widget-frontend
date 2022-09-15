@@ -77,7 +77,7 @@ const onWidgetScriptLoad = () => {
 const widgetScript = document.createElement("script");
 widgetScript.type = "text/javascript";
 widgetScript.defer = true;
-widgetScript.src = "https://unpkg.com/fortune-widget@2.0.16";
+widgetScript.src = "https://unpkg.com/fortune-widget@2.0.17";
 // widgetScript.src = "../dist/index.js";
 widgetScript.onload = onWidgetScriptLoad;
 

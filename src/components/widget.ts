@@ -40,6 +40,7 @@ export default class Widget {
   _inputElements: HTMLInputElement[];
   _spinMoreBtnElement: HTMLButtonElement;
   _popupContentElement: HTMLElement;
+  _phoneInputElement: HTMLInputElement;
 
   _popupElement: HTMLDivElement;
   _fortuneWheel: any;
@@ -69,6 +70,7 @@ export default class Widget {
     this._onSpinEnd = this._onSpinEnd.bind(this);
     this._init = this._init.bind(this);
     this._onSpinMoreBtnClick = this._onSpinMoreBtnClick.bind(this);
+    this._addPhoneValidation = this._addPhoneValidation.bind(this);
 
     this._setupEventListeners = this._setupEventListeners.bind(this);
   }
@@ -101,16 +103,52 @@ export default class Widget {
       this._formElement.querySelectorAll(".input__field")
     );
 
-    const phoneInput = this._popupElement.querySelector(
+    this._phoneInputElement = this._popupElement.querySelector(
       "#phone"
-    ) as HTMLElement;
+    ) as HTMLInputElement;
 
-    IMask(phoneInput, {
+    this._addPhoneValidation();
+
+    IMask(this._phoneInputElement, {
       mask: "+{7} (000) 000-00-00",
     });
 
     this._setupEventListeners();
     this._renderFortuneWheel();
+  }
+
+  _addPhoneValidation() {
+    this._phoneInputElement.addEventListener("input", (evt) => {
+      const target = evt.target as HTMLInputElement;
+
+      if (target.validity.valid)
+        return this._phoneInputElement.setCustomValidity("");
+
+      if (target.validity.valueMissing) {
+        return this._phoneInputElement.setCustomValidity("Заполните это поле.");
+      }
+
+      if (!target.validity.valid) {
+        return this._phoneInputElement.setCustomValidity(
+          "Проверьте формат номера телефона"
+        );
+      }
+    });
+
+    this._phoneInputElement.addEventListener("invalid", () => {
+      const validity = this._phoneInputElement.validity;
+      this._phoneInputElement.setCustomValidity("");
+
+      if (validity.valueMissing) {
+        return this._phoneInputElement.setCustomValidity("Заполните это поле.");
+      }
+
+      if (!validity.valid) {
+        return this._phoneInputElement.setCustomValidity(
+          "Проверьте формат номера телефона"
+        );
+      }
+    });
   }
 
   render() {
@@ -213,7 +251,7 @@ export default class Widget {
       </div>              
       <div class="input">
         <label class="input__label" for="phone">Телефон*</label>
-        <input id="phone" name="phone" class="input__field" type="text" placeholder="+7 (000) 000-00-00" required>
+        <input id="phone" name="phone" class="input__field" type="text" placeholder="+7 (000) 000-00-00" required minlength="18">
       </div>              
       <div class="input">
         <label class="input__label" for="city">Город*</label>
@@ -242,9 +280,13 @@ export default class Widget {
       this._formElement.querySelectorAll(".input__field")
     );
     this._formElement.addEventListener("submit", this._onFormSubmit);
-    const phoneInput = this._formElement.querySelector("#phone") as HTMLElement;
+    this._phoneInputElement = this._formElement.querySelector(
+      "#phone"
+    ) as HTMLInputElement;
 
-    IMask(phoneInput, {
+    this._addPhoneValidation();
+
+    IMask(this._phoneInputElement, {
       mask: "+{7} (000) 000-00-00",
     });
   }
