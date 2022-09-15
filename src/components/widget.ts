@@ -247,7 +247,7 @@ export default class Widget {
     <form class="popup__form">
       <div class="input">
         <label class="input__label" for="name">Имя*</label>
-        <input id="name" name="fio" class="input__field" type="text" placeholder="John Doe" required>
+        <input id="name" name="fio" class="input__field" type="text" placeholder="Ваше имя" required>
       </div>              
       <div class="input">
         <label class="input__label" for="phone">Телефон*</label>
