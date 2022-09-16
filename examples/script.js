@@ -1,4 +1,4 @@
-const WIDGET_SCRIPT_VERSION = "2.0.20";
+const WIDGET_SCRIPT_VERSION = "2.0.21";
 const WidgetScriptSrc = {
   LOCAL: "./index.js",
   DEV: "../dist/index.js",
