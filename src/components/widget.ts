@@ -70,7 +70,6 @@ export default class Widget {
     this._onSpinEnd = this._onSpinEnd.bind(this);
     this._init = this._init.bind(this);
     this._onSpinMoreBtnClick = this._onSpinMoreBtnClick.bind(this);
-    this._addPhoneValidation = this._addPhoneValidation.bind(this);
 
     this._setupEventListeners = this._setupEventListeners.bind(this);
   }
@@ -103,11 +102,24 @@ export default class Widget {
       this._formElement.querySelectorAll(".input__field")
     );
 
+    this._inputElements.forEach((el) => {
+      el.addEventListener("invalid", () =>
+        setTimeout(() => {
+          el.scrollIntoView({
+            block: "center",
+            behavior: "smooth",
+          });
+        }, 100)
+      );
+    });
+
     this._phoneInputElement = this._popupElement.querySelector(
       "#phone"
     ) as HTMLInputElement;
 
-    this._addPhoneValidation();
+    this._phoneInputElement.addEventListener("input", () =>
+      this._phoneInputElement.setCustomValidity("")
+    );
 
     IMask(this._phoneInputElement, {
       mask: "+{7} (000) 000-00-00",
@@ -115,40 +127,6 @@ export default class Widget {
 
     this._setupEventListeners();
     this._renderFortuneWheel();
-  }
-
-  _addPhoneValidation() {
-    this._phoneInputElement.addEventListener("input", (evt) => {
-      const target = evt.target as HTMLInputElement;
-
-      if (target.validity.valid)
-        return this._phoneInputElement.setCustomValidity("");
-
-      if (target.validity.valueMissing) {
-        return this._phoneInputElement.setCustomValidity("Заполните это поле.");
-      }
-
-      if (!target.validity.valid) {
-        return this._phoneInputElement.setCustomValidity(
-          "Проверьте формат номера телефона"
-        );
-      }
-    });
-
-    this._phoneInputElement.addEventListener("invalid", () => {
-      const validity = this._phoneInputElement.validity;
-      this._phoneInputElement.setCustomValidity("");
-
-      if (validity.valueMissing) {
-        return this._phoneInputElement.setCustomValidity("Заполните это поле.");
-      }
-
-      if (!validity.valid) {
-        return this._phoneInputElement.setCustomValidity(
-          "Проверьте формат номера телефона"
-        );
-      }
-    });
   }
 
   render() {
@@ -170,6 +148,14 @@ export default class Widget {
 
   _onFormSubmit(evt: FormDataEvent) {
     evt.preventDefault();
+    this._phoneInputElement.setCustomValidity("");
+
+    if (this._phoneInputElement.value.length !== 18) {
+      return this._phoneInputElement.setCustomValidity(
+        "Проверьте формат номера телефона"
+      );
+    }
+
     this._spinButtonElement.disabled = true;
     this._inputElements.forEach((elem) => (elem.disabled = true));
 
@@ -198,6 +184,9 @@ export default class Widget {
 
   _setupEventListeners() {
     this._popupLayoutElement.addEventListener("click", this.close);
+    this._spinButtonElement.addEventListener("click", () => {
+      this._formElement.requestSubmit();
+    });
     this._formElement.addEventListener("submit", this._onFormSubmit);
   }
 
@@ -251,7 +240,7 @@ export default class Widget {
       </div>              
       <div class="input">
         <label class="input__label" for="phone">Телефон*</label>
-        <input id="phone" name="phone" class="input__field" type="text" placeholder="+7 (000) 000-00-00" required minlength="18">
+        <input id="phone" name="phone" class="input__field" type="text" inputmode="numeric" placeholder="+7 (000) 000-00-00" required>
       </div>              
       <div class="input">
         <label class="input__label" for="city">Город*</label>
@@ -279,16 +268,30 @@ export default class Widget {
     this._inputElements = Array.from(
       this._formElement.querySelectorAll(".input__field")
     );
-    this._formElement.addEventListener("submit", this._onFormSubmit);
     this._phoneInputElement = this._formElement.querySelector(
       "#phone"
     ) as HTMLInputElement;
 
-    this._addPhoneValidation();
+    this._inputElements.forEach((el) => {
+      el.addEventListener("invalid", () =>
+        setTimeout(() => {
+          el.scrollIntoView({
+            block: "center",
+            behavior: "smooth",
+          });
+        }, 100)
+      );
+    });
+
+    this._phoneInputElement.addEventListener("input", () =>
+      this._phoneInputElement.setCustomValidity("")
+    );
 
     IMask(this._phoneInputElement, {
       mask: "+{7} (000) 000-00-00",
     });
+
+    this._formElement.addEventListener("submit", this._onFormSubmit);
   }
 
   _onSpinStart() {

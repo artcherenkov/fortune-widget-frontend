@@ -1,6 +1,6 @@
 {
   "name": "fortune-widget",
-  "version": "2.0.18",
+  "version": "2.0.19",
   "description": "",
   "main": "dist/index.js",
   "keywords": [],
@@ -11,7 +11,8 @@
     "package.json"
   ],
   "scripts": {
-    "build:local": "rm -rf ./dist && npx webpack && cp ./dist/index.js ./examples/scr.js",
+    "build:local": "rm -rf ./dist && npx webpack && cp ./dist/index.js ./examples/index.js",
+    "start:local": "npm run build:local && serve ./examples",
     "build": "rm -rf ./dist && npx webpack",
     "publish:custom": "npm run build && npm publish"
   },
