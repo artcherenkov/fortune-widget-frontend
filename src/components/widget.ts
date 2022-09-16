@@ -60,7 +60,6 @@ export default class Widget {
 
     this._triggerElement = document.querySelector(this._triggerSelector);
     this._triggerElement.removeAttribute("style");
-    console.log(this._triggerElement);
     this._renderTriggerButton();
 
     this.render = this.render.bind(this);
@@ -207,7 +206,7 @@ export default class Widget {
         <div class="popup__content">
           <div class="popup__header">
             <h2 class="popup__title">Испытай удачу</h2>
-            <p class="popup__text">Выиграйте <span class="popup__highlight-text">3000₽</span> на лазерную эпиляцию<br/>или другие призы</p>
+            <p class="popup__text">Выиграйте <span class="popup__highlight-text">3000₽</span> на лазерную эпиляцию <br class="popup__header-br">или другие призы<span class="popup__highlight-text">*</span></p>
           </div>
           <div class="popup__spinner-container">
             <div id="spinner" class="popup__spinner"></div>
@@ -234,17 +233,22 @@ export default class Widget {
   _createFormTemplate() {
     return `
     <form class="popup__form">
-      <div class="input">
-        <label class="input__label" for="name">Имя*</label>
+      <div class="popup__inputs">
+        <div class="input">
+        <label class="input__label" for="name">Имя</label>
         <input id="name" name="fio" class="input__field" type="text" placeholder="Ваше имя" required>
       </div>              
-      <div class="input">
-        <label class="input__label" for="phone">Телефон*</label>
-        <input id="phone" name="phone" class="input__field" type="text" inputmode="numeric" placeholder="+7 (000) 000-00-00" required>
-      </div>              
-      <div class="input">
-        <label class="input__label" for="city">Город*</label>
-        <input id="city" name="city" class="input__field" type="text" placeholder="Москва" required>
+        <div class="input">
+          <label class="input__label" for="phone">Телефон</label>
+          <input id="phone" name="phone" class="input__field" type="text" inputmode="numeric" placeholder="+7 (000) 000-00-00" required>
+        </div>              
+        <div class="input">
+          <label class="input__label" for="city">Город</label>
+          <input id="city" name="city" class="input__field" type="text" placeholder="Москва" required>
+        </div>
+        <p class="popup__disclaimer">
+          <span class="popup__highlight-text">*</span> Предложение действует только для новых клиентов.
+        </p>
       </div>
       <button class="popup__trigger button">Крутить барабан</button>
     </form>
@@ -295,7 +299,7 @@ export default class Widget {
   }
 
   _onSpinStart() {
-    console.log("Крутим!!!");
+    console.log("Запуск колеса");
   }
 
   _onSpinEnd(prize: TPrize) {

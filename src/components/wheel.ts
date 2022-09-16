@@ -167,9 +167,6 @@ export default class FortuneWheel {
     this._spinertia = 0;
 
     const prize = this._prizes[this._getCurrentSliceIdx()];
-
-    console.log(this._getCurrentSliceIdx());
-
     this._onSpinEnd && this._onSpinEnd(prize);
   }
 
