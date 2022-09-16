@@ -205,7 +205,7 @@ export default class Widget {
         <div class="popup__layout"></div>
         <div class="popup__content">
           <div class="popup__header">
-            <h2 class="popup__title">Испытай удачу</h2>
+            <h2 class="popup__title">Испытайте удачу</h2>
             <p class="popup__text">Выиграйте <span class="popup__highlight-text">3000₽</span> на лазерную эпиляцию <br class="popup__header-br">или другие призы<span class="popup__highlight-text">*</span></p>
           </div>
           <div class="popup__spinner-container">
