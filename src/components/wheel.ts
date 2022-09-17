@@ -1,5 +1,6 @@
 import "../styles/wheel.css";
 import { createPieSegmentsAngles } from "../utils/wheel";
+import { TPrize } from "../types";
 
 enum ECssClass {
   SpinnerContainer = "spinner-container",
@@ -8,12 +9,6 @@ enum ECssClass {
   InnerCircle = "inner-circle",
   Prize = "prize",
 }
-
-type TPrize = {
-  text: string;
-  color: string;
-  textColor: string;
-};
 
 interface IFortuneWheel {
   size: number;
