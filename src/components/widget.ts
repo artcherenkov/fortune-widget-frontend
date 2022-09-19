@@ -189,11 +189,11 @@ export default class Widget {
     this._formElement.addEventListener("submit", this._onFormSubmit);
   }
 
-  _createWinTemplate({ text, url }: { text: string; url: string }) {
+  _createWinTemplate(text: string) {
     return `
       <div class="win">
         <h2 class="win__title">Поздравляем!<br />Вы выиграли приз <span class="win__item">"${text}"</span></h2>
-        <a class="win__link" href="${url}" target="_blank" >Забрать приз</a>
+        <p class="win__operator">Скоро с вами свяжется оператор</p>
         <button class="win__button button">Крутить ещё раз</button>
       </div>
     `.trim();
@@ -312,7 +312,7 @@ export default class Widget {
     );
     this._spinnerContainerElement.insertAdjacentHTML(
       "beforeend",
-      this._createWinTemplate({ text: fullText, url })
+      this._createWinTemplate(fullText)
     );
     this._spinMoreBtnElement = this._popupElement.querySelector(".win__button");
     this._spinMoreBtnElement.addEventListener(
