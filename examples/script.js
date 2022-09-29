@@ -81,7 +81,7 @@ const onWidgetScriptLoad = () => {
 const widgetScript = document.createElement("script");
 widgetScript.type = "text/javascript";
 widgetScript.defer = true;
-widgetScript.src = WidgetScriptSrc.LOCAL;
+widgetScript.src = WidgetScriptSrc.PROD;
 widgetScript.onload = onWidgetScriptLoad;
 
 document.head.appendChild(widgetScript);
