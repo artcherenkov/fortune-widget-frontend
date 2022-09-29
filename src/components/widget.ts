@@ -7,16 +7,16 @@ import "../styles/widget.css";
 import FortuneWheel from "./wheel";
 
 enum ECssClass {
-  Popup = "popup",
-  PopupOpen = "popup_open",
-  PopupLayout = "popup__layout",
-  PopupForm = "popup__form",
+  Popup = "fortune-popup",
+  PopupOpen = "fortune-popup_open",
+  PopupLayout = "fortune-popup__layout",
+  PopupForm = "fortune-popup__form",
 }
 
 const icon = require("../icon-wheel.svg");
 
 const SPINNER_ROOT_SELECTOR = "#spinner";
-const SPINNER_TRIGGER_SELECTOR = ".popup__trigger";
+const SPINNER_TRIGGER_SELECTOR = ".fortune-popup__trigger";
 
 const MOCK_WHEEL_PROPS = {
   size: 250,
@@ -89,10 +89,11 @@ export default class Widget {
     this._formElement = this._popupElement.querySelector(
       `.${ECssClass.PopupForm}`
     );
-    this._popupContentElement =
-      this._popupElement.querySelector(".popup__content");
+    this._popupContentElement = this._popupElement.querySelector(
+      ".fortune-popup__content"
+    );
     this._spinnerContainerElement = this._popupElement.querySelector(
-      ".popup__spinner-container"
+      ".fortune-popup__spinner-container"
     );
     this._spinButtonElement = this._popupElement.querySelector(
       SPINNER_TRIGGER_SELECTOR
@@ -201,15 +202,15 @@ export default class Widget {
 
   _createWidgetTemplate() {
     return `
-      <div class="popup">
-        <div class="popup__layout"></div>
-        <div class="popup__content">
-          <div class="popup__header">
-            <h2 class="popup__title">Испытайте удачу</h2>
-            <p class="popup__text">Выиграйте <span class="popup__highlight-text">3000₽</span> на лазерную эпиляцию <br class="popup__header-br">или другие призы<span class="popup__highlight-text">*</span></p>
+      <div class="fortune-popup">
+        <div class="fortune-popup__layout"></div>
+        <div class="fortune-popup__content">
+          <div class="fortune-popup__header">
+            <h2 class="fortune-popup__title">Испытайте удачу</h2>
+            <p class="fortune-popup__text">Выиграйте <span class="fortune-popup__highlight-text">3000₽</span> на лазерную эпиляцию <br class="fortune-popup__header-br">или другие призы<span class="fortune-popup__highlight-text">*</span></p>
           </div>
-          <div class="popup__spinner-container">
-            <div id="spinner" class="popup__spinner"></div>
+          <div class="fortune-popup__spinner-container">
+            <div id="spinner" class="fortune-popup__spinner"></div>
             ${this._createFormTemplate()}
           </div>
         </div>
@@ -226,14 +227,14 @@ export default class Widget {
   _createTriggerButtonTemplate() {
     return `
         ${icon}
-        <p>Испытайте удачу!</p>
+        <p class="widget-trigger__text">Испытайте удачу!</p>
     `;
   }
 
   _createFormTemplate() {
     return `
-    <form class="popup__form">
-      <div class="popup__inputs">
+    <form class="fortune-popup__form">
+      <div class="fortune-popup__inputs">
         <div class="input">
         <label class="input__label" for="name">Имя</label>
         <input id="name" name="fio" class="input__field" type="text" placeholder="Ваше имя" required>
@@ -246,11 +247,11 @@ export default class Widget {
           <label class="input__label" for="city">Город</label>
           <input id="city" name="city" class="input__field" type="text" placeholder="Москва" required>
         </div>
-        <p class="popup__disclaimer">
-          <span class="popup__highlight-text">*</span> Предложение действует только для новых клиентов.
+        <p class="fortune-popup__disclaimer">
+          <span class="fortune-popup__highlight-text">*</span> Предложение действует только для новых клиентов.
         </p>
       </div>
-      <button class="popup__trigger button">Крутить барабан</button>
+      <button class="fortune-popup__trigger button">Крутить барабан</button>
     </form>
     `.trim();
   }
@@ -322,7 +323,7 @@ export default class Widget {
     console.log("выигрыш: " + prize.text);
 
     // @ts-ignore
-    startConfetti(".popup__content");
+    startConfetti(".fortune-popup__content");
     // @ts-ignore
     setTimeout(stopConfetti, 3000);
   }

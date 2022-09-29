@@ -1,4 +1,4 @@
-.popup {
+.fortune-popup {
   opacity: 0;
   z-index: -9999;
   visibility: hidden;
@@ -14,15 +14,15 @@
   transition: opacity 300ms ease;
 }
 
-.popup_open {
+.fortune-popup_open {
   display: flex;
 
-  z-index: 10;
+  z-index: 1100;
   visibility: visible;
   opacity: 1;
 }
 
-.popup__layout {
+.fortune-popup__layout {
   top: 0;
   left: 0;
   right: 0;
@@ -32,7 +32,7 @@
   position: absolute;
 }
 
-.popup__content {
+.fortune-popup__content {
   padding: 32px;
 
   box-sizing: border-box;
@@ -48,12 +48,12 @@
   background: linear-gradient(360deg, #dfd5cc 0%, #ffffff 100%);
 }
 
-.popup__header {
+.fortune-popup__header {
   display: flex;
   flex-direction: column;
 }
 
-.popup__title {
+.fortune-popup__title {
   font-family: "Montserrat", sans-serif;
   background: linear-gradient(90deg, #1f8fae 0%, #4de1eb 100%);
   -webkit-background-clip: text;
@@ -70,7 +70,7 @@
   text-transform: uppercase;
 }
 
-.popup__text {
+.fortune-popup__text {
   margin: 0 0 16px;
 
   font-family: "Montserrat", sans-serif;
@@ -83,11 +83,11 @@
   color: #333333;
 }
 
-.popup__spinner-container {
+.fortune-popup__spinner-container {
   display: flex;
 }
 
-.popup__spinner {
+.fortune-popup__spinner {
   z-index: -1;
   margin-right: 32px;
 }
@@ -121,13 +121,13 @@
   cursor: progress;
 }
 
-.popup__trigger {
+.fortune-popup__trigger {
   position: sticky;
   bottom: 0;
   margin-top: 0;
 }
 
-.popup__form {
+.fortune-popup__form {
   width: 100%;
 }
 
@@ -166,7 +166,7 @@
   cursor: not-allowed;
 }
 
-.popup__highlight-text {
+.fortune-popup__highlight-text {
   font-weight: bold;
 }
 
@@ -242,19 +242,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 12px;
+  padding: 0 8px;
   background-color: #01bdc6;
   border: none;
   color: white;
-  border-radius: 0 0 18px 18px;
-
+  border-radius: 18px 18px 0 0;
   transition: opacity 200ms ease;
-  position: absolute;
-  transform-origin: top left;
-
-  left: 0;
-  top: 50%;
+  position: fixed;
+  transform-origin: top right;
+  right: 30px;
+  bottom: 40%;
   transform: rotate(-90deg);
+  z-index: 10;
 }
 
 .widget-trigger:hover {
@@ -269,8 +268,14 @@
   transform: rotate(90deg);
 }
 
+.widget-trigger__text {
+  margin: 8px 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+}
+
 @media screen and (max-width: 768px) {
-  .popup__spinner {
+  .fortune-popup__spinner {
     margin: 0;
   }
 
@@ -292,30 +297,30 @@
     margin-bottom: 32px;
   }
 
-  .popup__content {
+  .fortune-popup__content {
     padding: 16px 12px 24px;
     overflow-y: auto;
   }
 
-  .popup__spinner-container {
+  .fortune-popup__spinner-container {
     justify-content: center;
     flex-wrap: wrap;
   }
 
-  .popup__spinner {
+  .fortune-popup__spinner {
     margin: 24px 0 24px;
   }
 
-  .popup__trigger {
+  .fortune-popup__trigger {
     display: block;
     margin: 0 auto 0;
   }
 
-  .popup__title {
+  .fortune-popup__title {
     font-size: 22px;
   }
 
-  .popup__text {
+  .fortune-popup__text {
     font-size: 16px;
   }
 
@@ -329,7 +334,7 @@
     align-items: center;
   }
 
-  .popup__header-br {
+  .fortune-popup__header-br {
     display: none;
   }
 }
@@ -338,19 +343,19 @@
   box-shadow: 1px 3px 24px rgb(0 0 0 / 46%);
 }
 
-.popup__disclaimer {
+.fortune-popup__disclaimer {
   font-size: 12px;
   color: #706f6f;
   font-family: "Montserrat", sans-serif;
 }
 
 @media screen and (max-width: 360px) {
-  .popup__title {
+  .fortune-popup__title {
     font-size: 22px;
     margin-bottom: 12px;
   }
 
-  .popup__text {
+  .fortune-popup__text {
     margin-bottom: 0;
   }
 

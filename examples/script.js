@@ -1,4 +1,4 @@
-const WIDGET_SCRIPT_VERSION = "2.0.23";
+const WIDGET_SCRIPT_VERSION = "2.0.25";
 const WidgetScriptSrc = {
   LOCAL: "./index.js",
   DEV: "../dist/index.js",
@@ -81,7 +81,7 @@ const onWidgetScriptLoad = () => {
 const widgetScript = document.createElement("script");
 widgetScript.type = "text/javascript";
 widgetScript.defer = true;
-widgetScript.src = WidgetScriptSrc.PROD;
+widgetScript.src = WidgetScriptSrc.LOCAL;
 widgetScript.onload = onWidgetScriptLoad;
 
 document.head.appendChild(widgetScript);
