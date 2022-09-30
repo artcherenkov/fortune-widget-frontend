@@ -2,7 +2,8 @@ const WIDGET_SCRIPT_VERSION = "2.0.26";
 const WidgetScriptSrc = {
   LOCAL: "./index.js",
   DEV: "../dist/index.js",
-  PROD: `https://unpkg.com/fortune-widget@${WIDGET_SCRIPT_VERSION}`,
+  PROD_UNPKG: `https://unpkg.com/fortune-widget@${WIDGET_SCRIPT_VERSION}`,
+  PROD_JSDELIVR: `https://cdn.jsdelivr.net/npm/fortune-widget@${WIDGET_SCRIPT_VERSION}`,
 };
 const ROOT_SELECTOR = "#widget";
 const TRIGGER_SELECTOR = ".widget-trigger";
@@ -81,7 +82,7 @@ const onWidgetScriptLoad = () => {
 const widgetScript = document.createElement("script");
 widgetScript.type = "text/javascript";
 widgetScript.defer = true;
-widgetScript.src = WidgetScriptSrc.PROD;
+widgetScript.src = WidgetScriptSrc.PROD_JSDELIVR;
 widgetScript.onload = onWidgetScriptLoad;
 
 document.head.appendChild(widgetScript);
