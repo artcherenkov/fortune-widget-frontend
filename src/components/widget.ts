@@ -44,6 +44,7 @@ export default class Widget {
 
   _popupElement: HTMLDivElement;
   _fortuneWheel: any;
+  _mask: any;
 
   constructor({
     widgetName,
@@ -117,12 +118,15 @@ export default class Widget {
       "#phone"
     ) as HTMLInputElement;
 
-    this._phoneInputElement.addEventListener("input", () =>
-      this._phoneInputElement.setCustomValidity("")
-    );
+    this._mask = IMask(this._phoneInputElement, {
+      mask: "+7 (000) 000-00-00",
+    });
 
-    IMask(this._phoneInputElement, {
-      mask: "+{7} (000) 000-00-00",
+    this._phoneInputElement.addEventListener("input", () => {
+      this._phoneInputElement.setCustomValidity("");
+      if (this._mask.unmaskedValue === "8") {
+        this._mask.value = "+7";
+      }
     });
 
     this._setupEventListeners();
@@ -288,12 +292,15 @@ export default class Widget {
       );
     });
 
-    this._phoneInputElement.addEventListener("input", () =>
-      this._phoneInputElement.setCustomValidity("")
-    );
+    this._mask = IMask(this._phoneInputElement, {
+      mask: "+7 (000) 000-00-00",
+    });
 
-    IMask(this._phoneInputElement, {
-      mask: "+{7} (000) 000-00-00",
+    this._phoneInputElement.addEventListener("input", () => {
+      this._phoneInputElement.setCustomValidity("");
+      if (this._mask.unmaskedValue === "8") {
+        this._mask.value = "+7";
+      }
     });
 
     this._formElement.addEventListener("submit", this._onFormSubmit);
