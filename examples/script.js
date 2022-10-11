@@ -83,7 +83,7 @@
   const widgetScript = document.createElement("script");
   widgetScript.type = "text/javascript";
   widgetScript.defer = true;
-  widgetScript.src = WidgetScriptSrc.PROD_JSDELIVR;
+  widgetScript.src = WidgetScriptSrc.DEV;
   widgetScript.onload = onWidgetScriptLoad;
 
   document.head.appendChild(widgetScript);

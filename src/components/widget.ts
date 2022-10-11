@@ -25,7 +25,7 @@ const MOCK_WHEEL_PROPS = {
 };
 
 export default class Widget {
-  _prizes: any;
+  _prizes: TPrize[];
   _rootSelector: string;
   _triggerSelector: string;
   _backendUrl: string;
@@ -87,50 +87,24 @@ export default class Widget {
     this._popupLayoutElement = this._popupElement.querySelector(
       `.${ECssClass.PopupLayout}`
     );
-    this._formElement = this._popupElement.querySelector(
-      `.${ECssClass.PopupForm}`
-    );
     this._popupContentElement = this._popupElement.querySelector(
       ".fortune-popup__content"
     );
     this._spinnerContainerElement = this._popupElement.querySelector(
       ".fortune-popup__spinner-container"
     );
-    this._spinButtonElement = this._popupElement.querySelector(
-      SPINNER_TRIGGER_SELECTOR
-    );
-    this._inputElements = Array.from(
-      this._formElement.querySelectorAll(".input__field")
-    );
 
-    this._inputElements.forEach((el) => {
-      el.addEventListener("invalid", () =>
-        setTimeout(() => {
-          el.scrollIntoView({
-            block: "center",
-            behavior: "smooth",
-          });
-        }, 100)
-      );
-    });
-
-    this._phoneInputElement = this._popupElement.querySelector(
-      "#phone"
-    ) as HTMLInputElement;
-
-    this._mask = IMask(this._phoneInputElement, {
-      mask: "+7 (000) 000-00-00",
-    });
-
-    this._phoneInputElement.addEventListener("input", () => {
-      this._phoneInputElement.setCustomValidity("");
-      if (this._mask.unmaskedValue === "8") {
-        this._mask.value = "+7";
-      }
-    });
+    this._renderForm();
 
     this._setupEventListeners();
     this._renderFortuneWheel();
+  }
+
+  _setupEventListeners() {
+    this._popupLayoutElement.addEventListener("click", this.close);
+    this._spinButtonElement.addEventListener("click", () => {
+      this._formElement.requestSubmit();
+    });
   }
 
   render() {
@@ -186,18 +160,120 @@ export default class Widget {
     });
   }
 
-  _setupEventListeners() {
-    this._popupLayoutElement.addEventListener("click", this.close);
-    this._spinButtonElement.addEventListener("click", () => {
-      this._formElement.requestSubmit();
-    });
+  _queryFormElements() {
+    this._formElement = this._popupElement.querySelector(
+      `.${ECssClass.PopupForm}`
+    );
+    this._spinButtonElement = this._popupElement.querySelector(
+      SPINNER_TRIGGER_SELECTOR
+    );
+    this._inputElements = Array.from(
+      this._formElement.querySelectorAll(".input__field")
+    );
+    this._phoneInputElement = this._formElement.querySelector(
+      "#phone"
+    ) as HTMLInputElement;
+  }
+
+  _setupFormEventListeners() {
     this._formElement.addEventListener("submit", this._onFormSubmit);
+    this._inputElements.forEach((el) => {
+      el.addEventListener("invalid", () =>
+        setTimeout(() => {
+          el.scrollIntoView({
+            block: "center",
+            behavior: "smooth",
+          });
+        }, 100)
+      );
+    });
+    this._mask = IMask(this._phoneInputElement, {
+      mask: "+7 (000) 000-00-00",
+    });
+    this._phoneInputElement.addEventListener("input", () => {
+      this._phoneInputElement.setCustomValidity("");
+      if (this._mask.unmaskedValue === "8") {
+        this._mask.value = "+7";
+      }
+    });
+  }
+
+  _onSpinMoreBtnClick() {
+    this._spinnerContainerElement.removeChild(
+      this._spinnerContainerElement.children[1]
+    );
+
+    this._renderForm();
+  }
+
+  _onSpinStart() {
+    console.log("Запуск колеса");
+  }
+
+  _onSpinEnd(prize: TPrize) {
+    const { fullText } = prize;
+
+    if (window.innerWidth <= 768) {
+      this._popupContentElement.scrollTo({ top: 100, behavior: "smooth" });
+    }
+    this._spinnerContainerElement.removeChild(
+      this._spinnerContainerElement.children[1]
+    );
+    this._renderWinState(fullText);
+
+    console.log("выигрыш: " + prize.text);
+
+    // @ts-ignore
+    startConfetti(".fortune-popup__content");
+    // @ts-ignore
+    setTimeout(stopConfetti, 3000);
+  }
+
+  _renderForm() {
+    this._spinnerContainerElement.insertAdjacentHTML(
+      "beforeend",
+      this._createFormTemplate()
+    );
+
+    this._queryFormElements();
+    this._setupFormEventListeners();
+  }
+
+  _renderWinState(text: string) {
+    this._spinnerContainerElement.insertAdjacentHTML(
+      "beforeend",
+      this._createWinTemplate(text)
+    );
+
+    this._spinMoreBtnElement = this._popupElement.querySelector(".win__button");
+
+    this._spinMoreBtnElement.addEventListener(
+      "click",
+      this._onSpinMoreBtnClick
+    );
+  }
+
+  _renderTriggerButton() {
+    this._triggerElement.insertAdjacentHTML(
+      "afterbegin",
+      this._createTriggerButtonTemplate()
+    );
+  }
+
+  _renderFortuneWheel() {
+    this._fortuneWheel = new FortuneWheel({
+      ...MOCK_WHEEL_PROPS,
+      onSpinStart: this._onSpinStart,
+      onSpinEnd: this._onSpinEnd,
+      prizes: this._prizes,
+    });
+    this._fortuneWheel.render();
   }
 
   _createWinTemplate(text: string) {
     return `
       <div class="win">
-        <h2 class="win__title">Поздравляем!<br />Вы выиграли приз <span class="win__item">"${text}"</span></h2>
+        <h2 class="win__title">Поздравляем! Вы выиграли приз <span class="win__item">"${text}"</span></h2>
         <p class="win__operator">Скоро с вами свяжется оператор</p>
         <button class="win__button button">Крутить ещё раз</button>
       </div>
@@ -215,24 +291,17 @@ export default class Widget {
           </div>
           <div class="fortune-popup__spinner-container">
             <div id="spinner" class="fortune-popup__spinner"></div>
-            ${this._createFormTemplate()}
           </div>
         </div>
       </div>  
     `.trim();
   }
 
-  _renderTriggerButton() {
-    document
-      .querySelector(this._triggerSelector)
-      .insertAdjacentHTML("afterbegin", this._createTriggerButtonTemplate());
-  }
-
   _createTriggerButtonTemplate() {
     return `
         ${icon}
         <p class="widget-trigger__text">Испытайте удачу!</p>
-    `;
+    `.trim();
   }
 
   _createFormTemplate() {
@@ -258,90 +327,5 @@ export default class Widget {
       <button class="fortune-popup__trigger button">Крутить барабан</button>
     </form>
     `.trim();
-  }
-
-  _onSpinMoreBtnClick() {
-    this._spinnerContainerElement.removeChild(
-      this._spinnerContainerElement.children[1]
-    );
-    this._spinnerContainerElement.insertAdjacentHTML(
-      "beforeend",
-      this._createFormTemplate()
-    );
-    this._formElement = this._popupElement.querySelector(
-      `.${ECssClass.PopupForm}`
-    );
-    this._spinButtonElement = this._popupElement.querySelector(
-      SPINNER_TRIGGER_SELECTOR
-    );
-    this._inputElements = Array.from(
-      this._formElement.querySelectorAll(".input__field")
-    );
-    this._phoneInputElement = this._formElement.querySelector(
-      "#phone"
-    ) as HTMLInputElement;
-
-    this._inputElements.forEach((el) => {
-      el.addEventListener("invalid", () =>
-        setTimeout(() => {
-          el.scrollIntoView({
-            block: "center",
-            behavior: "smooth",
-          });
-        }, 100)
-      );
-    });
-
-    this._mask = IMask(this._phoneInputElement, {
-      mask: "+7 (000) 000-00-00",
-    });
-
-    this._phoneInputElement.addEventListener("input", () => {
-      this._phoneInputElement.setCustomValidity("");
-      if (this._mask.unmaskedValue === "8") {
-        this._mask.value = "+7";
-      }
-    });
-
-    this._formElement.addEventListener("submit", this._onFormSubmit);
-  }
-
-  _onSpinStart() {
-    console.log("Запуск колеса");
-  }
-
-  _onSpinEnd(prize: TPrize) {
-    if (window.innerWidth <= 768) {
-      this._popupContentElement.scrollTo({ top: 100, behavior: "smooth" });
-    }
-    const { fullText, url } = prize;
-    this._spinnerContainerElement.removeChild(
-      this._spinnerContainerElement.children[1]
-    );
-    this._spinnerContainerElement.insertAdjacentHTML(
-      "beforeend",
-      this._createWinTemplate(fullText)
-    );
-    this._spinMoreBtnElement = this._popupElement.querySelector(".win__button");
-    this._spinMoreBtnElement.addEventListener(
-      "click",
-      this._onSpinMoreBtnClick
-    );
-    console.log("выигрыш: " + prize.text);
-
-    // @ts-ignore
-    startConfetti(".fortune-popup__content");
-    // @ts-ignore
-    setTimeout(stopConfetti, 3000);
-  }
-
-  _renderFortuneWheel() {
-    this._fortuneWheel = new FortuneWheel({
-      ...MOCK_WHEEL_PROPS,
-      onSpinStart: this._onSpinStart,
-      onSpinEnd: this._onSpinEnd,
-      prizes: this._prizes,
-    });
-    this._fortuneWheel.render();
   }
 }
