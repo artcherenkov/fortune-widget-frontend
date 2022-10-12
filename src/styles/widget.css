@@ -238,6 +238,10 @@
   margin: auto 0 0;
 }
 
+.win__button.win__button_action_claim {
+  margin-top: 12px;
+}
+
 .widget-trigger {
   display: flex;
   align-items: center;
@@ -273,6 +277,21 @@
   margin: 12px 0;
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
+}
+
+.button_floating {
+  box-shadow: 1px 3px 24px rgb(0 0 0 / 46%);
+}
+
+.fortune-popup__disclaimer {
+  font-size: 12px;
+  color: #706f6f;
+  font-family: "Montserrat", sans-serif;
+}
+
+.initial-state {
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -354,16 +373,6 @@
     margin: 8px 0;
     font-size: 12px;
   }
-}
-
-.button_floating {
-  box-shadow: 1px 3px 24px rgb(0 0 0 / 46%);
-}
-
-.fortune-popup__disclaimer {
-  font-size: 12px;
-  color: #706f6f;
-  font-family: "Montserrat", sans-serif;
 }
 
 @media screen and (max-width: 360px) {

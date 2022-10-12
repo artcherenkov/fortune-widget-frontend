@@ -39,6 +39,7 @@ export default class Widget {
   _spinButtonElement: HTMLButtonElement;
   _inputElements: HTMLInputElement[];
   _spinMoreBtnElement: HTMLButtonElement;
+  _claimPrizeBtnElement: HTMLButtonElement;
   _popupContentElement: HTMLElement;
   _phoneInputElement: HTMLInputElement;
 
@@ -70,6 +71,7 @@ export default class Widget {
     this._onSpinEnd = this._onSpinEnd.bind(this);
     this._init = this._init.bind(this);
     this._onSpinMoreBtnClick = this._onSpinMoreBtnClick.bind(this);
+    this._onClaimPrizeBtnClick = this._onClaimPrizeBtnClick.bind(this);
 
     this._setupEventListeners = this._setupEventListeners.bind(this);
   }
@@ -94,17 +96,17 @@ export default class Widget {
       ".fortune-popup__spinner-container"
     );
 
-    this._renderForm();
+    this._renderFortuneWheel();
+
+    // this._renderFormState();
+    // this._renderWinState(this._prizes[0].fullText, this._prizes[0].extraText);
+    this._renderInitialState();
 
     this._setupEventListeners();
-    this._renderFortuneWheel();
   }
 
   _setupEventListeners() {
     this._popupLayoutElement.addEventListener("click", this.close);
-    this._spinButtonElement.addEventListener("click", () => {
-      this._formElement.requestSubmit();
-    });
   }
 
   render() {
@@ -122,6 +124,47 @@ export default class Widget {
   close() {
     this._popupElement.remove();
     this._popupElement.classList.remove(ECssClass.PopupOpen);
+  }
+
+  _queryFormElements() {
+    this._formElement = this._popupElement.querySelector(
+      `.${ECssClass.PopupForm}`
+    );
+    this._spinButtonElement = this._popupElement.querySelector(
+      SPINNER_TRIGGER_SELECTOR
+    );
+    this._inputElements = Array.from(
+      this._formElement.querySelectorAll(".input__field")
+    );
+    this._phoneInputElement = this._formElement.querySelector(
+      "#phone"
+    ) as HTMLInputElement;
+  }
+
+  _setupFormEventListeners() {
+    this._spinButtonElement.addEventListener("click", () => {
+      this._formElement.requestSubmit();
+    });
+    this._formElement.addEventListener("submit", this._onFormSubmit);
+    this._inputElements.forEach((el) => {
+      el.addEventListener("invalid", () =>
+        setTimeout(() => {
+          el.scrollIntoView({
+            block: "center",
+            behavior: "smooth",
+          });
+        }, 100)
+      );
+    });
+    this._mask = IMask(this._phoneInputElement, {
+      mask: "+7 (000) 000-00-00",
+    });
+    this._phoneInputElement.addEventListener("input", () => {
+      this._phoneInputElement.setCustomValidity("");
+      if (this._mask.unmaskedValue === "8") {
+        this._mask.value = "+7";
+      }
+    });
   }
 
   _onFormSubmit(evt: FormDataEvent) {
@@ -155,47 +198,18 @@ export default class Widget {
       },
       body: data,
     }).then(() => {
-      this._popupContentElement.scrollTo({ top: 0, behavior: "smooth" });
-      setTimeout(() => this._fortuneWheel.spin(), 300);
+      setTimeout(() => {
+        alert("с вами свяжется оператор");
+        this._onFormFetched();
+      }, 500);
     });
   }
 
-  _queryFormElements() {
-    this._formElement = this._popupElement.querySelector(
-      `.${ECssClass.PopupForm}`
-    );
-    this._spinButtonElement = this._popupElement.querySelector(
-      SPINNER_TRIGGER_SELECTOR
-    );
-    this._inputElements = Array.from(
-      this._formElement.querySelectorAll(".input__field")
-    );
-    this._phoneInputElement = this._formElement.querySelector(
-      "#phone"
-    ) as HTMLInputElement;
-  }
+  _onFormFetched() {
+    this._spinButtonElement.disabled = false;
 
-  _setupFormEventListeners() {
-    this._formElement.addEventListener("submit", this._onFormSubmit);
-    this._inputElements.forEach((el) => {
-      el.addEventListener("invalid", () =>
-        setTimeout(() => {
-          el.scrollIntoView({
-            block: "center",
-            behavior: "smooth",
-          });
-        }, 100)
-      );
-    });
-    this._mask = IMask(this._phoneInputElement, {
-      mask: "+7 (000) 000-00-00",
-    });
-    this._phoneInputElement.addEventListener("input", () => {
-      this._phoneInputElement.setCustomValidity("");
-      if (this._mask.unmaskedValue === "8") {
-        this._mask.value = "+7";
-      }
-    });
+    this._spinnerContainerElement.children[0].remove();
+    this._renderThxTemplate();
   }
 
   _onSpinMoreBtnClick() {
@@ -203,15 +217,25 @@ export default class Widget {
       this._spinnerContainerElement.children[1]
     );
 
-    this._renderForm();
+    this._renderInitialState();
+  }
+
+  _onClaimPrizeBtnClick() {
+    Array.from(this._spinnerContainerElement.children).forEach((c) =>
+      c.remove()
+    );
+
+    this._renderFormState();
   }
 
   _onSpinStart() {
     console.log("Запуск колеса");
+
+    this._spinButtonElement.disabled = true;
   }
 
   _onSpinEnd(prize: TPrize) {
-    const { fullText } = prize;
+    const { fullText, extraText } = prize;
 
     if (window.innerWidth <= 768) {
       this._popupContentElement.scrollTo({ top: 100, behavior: "smooth" });
@@ -219,7 +243,7 @@ export default class Widget {
     this._spinnerContainerElement.removeChild(
       this._spinnerContainerElement.children[1]
     );
-    this._renderWinState(fullText);
+    this._renderWinState(fullText, extraText);
 
     console.log("выигрыш: " + prize.text);
 
@@ -227,9 +251,28 @@ export default class Widget {
     startConfetti(".fortune-popup__content");
     // @ts-ignore
     setTimeout(stopConfetti, 3000);
+
+    this._spinButtonElement.disabled = false;
   }
 
-  _renderForm() {
+  _renderInitialState() {
+    this._spinnerContainerElement.insertAdjacentHTML(
+      "beforeend",
+      this._createInitialStateTemplate()
+    );
+
+    this._spinButtonElement = this._popupElement.querySelector(
+      ".initial-state__trigger"
+    );
+
+    this._fortuneWheel.prepareWheel();
+
+    this._spinButtonElement.addEventListener("click", () => {
+      this._fortuneWheel.spin();
+    });
+  }
+
+  _renderFormState() {
     this._spinnerContainerElement.insertAdjacentHTML(
       "beforeend",
       this._createFormTemplate()
@@ -239,17 +282,34 @@ export default class Widget {
     this._setupFormEventListeners();
   }
 
-  _renderWinState(text: string) {
+  _renderWinState(text: string, extraText: string) {
     this._spinnerContainerElement.insertAdjacentHTML(
       "beforeend",
-      this._createWinTemplate(text)
+      this._createWinTemplate(text, extraText)
     );
 
-    this._spinMoreBtnElement = this._popupElement.querySelector(".win__button");
+    this._spinMoreBtnElement = this._popupElement.querySelector(
+      ".win__button_action_spin"
+    );
+    this._claimPrizeBtnElement = this._popupElement.querySelector(
+      ".win__button_action_claim"
+    );
 
     this._spinMoreBtnElement.addEventListener(
       "click",
       this._onSpinMoreBtnClick
+    );
+
+    this._claimPrizeBtnElement.addEventListener(
+      "click",
+      this._onClaimPrizeBtnClick
+    );
+  }
+
+  _renderThxTemplate() {
+    this._spinnerContainerElement.insertAdjacentHTML(
+      "beforeend",
+      this._createThxTemplate()
     );
   }
 
@@ -268,16 +328,6 @@ export default class Widget {
       prizes: this._prizes,
     });
     this._fortuneWheel.render();
-  }
-
-  _createWinTemplate(text: string) {
-    return `
-      <div class="win">
-        <h2 class="win__title">Поздравляем! Вы выиграли приз <span class="win__item">"${text}"</span></h2>
-        <p class="win__operator">Скоро с вами свяжется оператор</p>
-        <button class="win__button button">Крутить ещё раз</button>
-      </div>
-    `.trim();
   }
 
   _createWidgetTemplate() {
@@ -304,6 +354,23 @@ export default class Widget {
     `.trim();
   }
 
+  _createInitialStateTemplate() {
+    return `<div class="initial-state">
+      <button class="initial-state__trigger button">Крутить барабан</button>
+    </div>`.trim();
+  }
+
+  _createWinTemplate(text: string, extraText: string) {
+    return `
+      <div class="win">
+        <h2 class="win__title">Поздравляем! Вы выиграли <span class="win__item">${text}</span></h2>
+        <p class="win__operator">${extraText}</p>
+        <button class="win__button win__button_action_spin button">Крутить ещё</button>
+        <button class="win__button win__button_action_claim button">Получить приз</button>
+      </div>
+    `.trim();
+  }
+
   _createFormTemplate() {
     return `
     <form class="fortune-popup__form">
@@ -324,8 +391,16 @@ export default class Widget {
           <span class="fortune-popup__highlight-text">*</span> Предложение действует только для новых клиентов.
         </p>
       </div>
-      <button class="fortune-popup__trigger button">Крутить барабан</button>
+      <button class="fortune-popup__trigger button">Получить приз</button>
     </form>
+    `.trim();
+  }
+
+  _createThxTemplate() {
+    return `
+      <div>
+        <h2>Спасибо! Скоро с вами свяжется оператор</h2>    
+      </div>
     `.trim();
   }
 }
