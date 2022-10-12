@@ -427,6 +427,74 @@
 }
 
 @media screen and (min-width: 390px) {
+  .fortune-popup__content {
+    height: 570px;
+    padding: 16px 20px;
+  }
+
+  .fortune-popup__title {
+    font-size: 20px;
+    line-height: 24px;
+    margin-bottom: 12px;
+  }
+
+  .fortune-popup__text {
+    font-size: 14px;
+    line-height: 130%;
+  }
+
+  .fortune-popup__spinner-container {
+    transform: translateY(40px);
+  }
+
+  .fortune-popup__spinner-container_translate_off {
+    transform: translateY(8px);
+  }
+
+  .initial-state {
+    margin-top: 52px;
+  }
+
+  .initial-state__trigger {
+    width: 260px;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .fortune-popup__disclaimer {
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  .win__title {
+    font-size: 14px;
+    line-height: 130%;
+    margin: 14px 0 12px;
+  }
+
+  .win__extra {
+    margin-bottom: 12px;
+  }
+
+  .win__button {
+    font-size: 12px;
+  }
+
+  .fortune-popup__form {
+    padding: 0 4px;
+    margin-top: 40px;
+  }
+
+  .fortune-popup__trigger {
+    margin-top: 36px;
+    width: 240px;
+  }
+
+  .thx {
+    margin-top: 140px;
+    font-size: 18px;
+    line-height: 22px;
+  }
 }
 
 @media screen and (min-width: 428px) {

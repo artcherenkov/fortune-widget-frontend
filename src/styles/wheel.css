@@ -127,6 +127,9 @@
 }
 
 @media screen and (min-width: 390px) {
+  .spinner-container {
+    --size: 220px;
+  }
 }
 
 @media screen and (min-width: 428px) {
