@@ -41,7 +41,9 @@ export default class Widget {
   _spinMoreBtnElement: HTMLButtonElement;
   _claimPrizeBtnElement: HTMLButtonElement;
   _popupContentElement: HTMLElement;
+  _popupHeaderElement: HTMLElement;
   _phoneInputElement: HTMLInputElement;
+  _closePopupButton: HTMLButtonElement;
 
   _popupElement: HTMLDivElement;
   _fortuneWheel: any;
@@ -92,21 +94,24 @@ export default class Widget {
     this._popupContentElement = this._popupElement.querySelector(
       ".fortune-popup__content"
     );
+    this._popupHeaderElement = this._popupElement.querySelector(
+      ".fortune-popup__header"
+    );
     this._spinnerContainerElement = this._popupElement.querySelector(
       ".fortune-popup__spinner-container"
     );
+    this._closePopupButton = this._popupContentElement.querySelector(
+      ".fortune-popup__close-btn"
+    );
 
     this._renderFortuneWheel();
-
-    // this._renderFormState();
-    // this._renderWinState(this._prizes[0].fullText, this._prizes[0].extraText);
     this._renderInitialState();
-
     this._setupEventListeners();
   }
 
   _setupEventListeners() {
     this._popupLayoutElement.addEventListener("click", this.close);
+    this._closePopupButton.addEventListener("click", this.close);
   }
 
   render() {
@@ -199,7 +204,6 @@ export default class Widget {
       body: data,
     }).then(() => {
       setTimeout(() => {
-        alert("с вами свяжется оператор");
         this._onFormFetched();
       }, 500);
     });
@@ -260,6 +264,9 @@ export default class Widget {
       "beforeend",
       this._createInitialStateTemplate()
     );
+    this._spinnerContainerElement.classList.remove(
+      "fortune-popup__spinner-container_translate_off"
+    );
 
     this._spinButtonElement = this._popupElement.querySelector(
       ".initial-state__trigger"
@@ -286,6 +293,9 @@ export default class Widget {
     this._spinnerContainerElement.insertAdjacentHTML(
       "beforeend",
       this._createWinTemplate(text, extraText)
+    );
+    this._spinnerContainerElement.classList.add(
+      "fortune-popup__spinner-container_translate_off"
     );
 
     this._spinMoreBtnElement = this._popupElement.querySelector(
@@ -337,11 +347,15 @@ export default class Widget {
         <div class="fortune-popup__content">
           <div class="fortune-popup__header">
             <h2 class="fortune-popup__title">Испытайте удачу</h2>
-            <p class="fortune-popup__text">Выиграйте <span class="fortune-popup__highlight-text">3000₽</span> на лазерную эпиляцию <br class="fortune-popup__header-br">или другие призы<span class="fortune-popup__highlight-text">*</span></p>
+            <p class="fortune-popup__text">Выиграйте <span class="fortune-popup__highlight-text">3000₽</span> на лазерную эпиляцию или другие призы<span class="fortune-popup__highlight-text">*</span></p>
           </div>
           <div class="fortune-popup__spinner-container">
             <div id="spinner" class="fortune-popup__spinner"></div>
           </div>
+          <p class="fortune-popup__disclaimer">
+            <span class="fortune-popup__highlight-text">*</span>Предложение действует только для новых клиентов.
+          </p>
+          <button class="fortune-popup__close-btn"></button>
         </div>
       </div>  
     `.trim();
@@ -364,9 +378,12 @@ export default class Widget {
     return `
       <div class="win">
         <h2 class="win__title">Поздравляем! Вы выиграли <span class="win__item">${text}</span></h2>
-        <p class="win__operator">${extraText}</p>
-        <button class="win__button win__button_action_spin button">Крутить ещё</button>
-        <button class="win__button win__button_action_claim button">Получить приз</button>
+        <p class="win__extra">${extraText}</p>
+        <div class="win__buttons">
+          <button class="win__button win__button_action_spin button">Крутить ещё</button>
+          <button class="win__button win__button_action_claim button">Получить приз</button>   
+        </div>
+
       </div>
     `.trim();
   }
@@ -387,9 +404,6 @@ export default class Widget {
           <label class="input__label" for="city">Город</label>
           <input id="city" name="city" class="input__field" type="text" placeholder="Москва" required>
         </div>
-        <p class="fortune-popup__disclaimer">
-          <span class="fortune-popup__highlight-text">*</span> Предложение действует только для новых клиентов.
-        </p>
       </div>
       <button class="fortune-popup__trigger button">Получить приз</button>
     </form>
@@ -398,9 +412,7 @@ export default class Widget {
 
   _createThxTemplate() {
     return `
-      <div>
-        <h2>Спасибо! Скоро с вами свяжется оператор</h2>    
-      </div>
+      <h2 class="thx">Спасибо!<br> Скоро с вами свяжется оператор</h2>    
     `.trim();
   }
 }

@@ -114,8 +114,17 @@
   transform: rotate(calc(var(--rotate, 25) * 1deg + 12deg));
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (min-width: 0px) {
   .spinner-container {
-    --size: 220px;
+    --size: 190px;
   }
+}
+
+@media screen and (min-width: 375px) {
+}
+
+@media screen and (min-width: 390px) {
+}
+
+@media screen and (min-width: 428px) {
 }
