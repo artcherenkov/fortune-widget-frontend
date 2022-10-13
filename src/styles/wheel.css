@@ -3,7 +3,7 @@
 }
 
 .spinner-container {
-  --size: 270px;
+  --size: 190px;
 
   width: var(--size);
   height: var(--size);
@@ -114,12 +114,6 @@
   transform: rotate(calc(var(--rotate, 25) * 1deg + 12deg));
 }
 
-@media screen and (min-width: 0px) {
-  .spinner-container {
-    --size: 190px;
-  }
-}
-
 @media screen and (min-width: 375px) {
   .spinner-container {
     --size: 200px;
@@ -133,4 +127,7 @@
 }
 
 @media screen and (min-width: 428px) {
+  .spinner-container {
+    --size: 240px;
+  }
 }

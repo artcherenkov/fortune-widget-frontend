@@ -375,9 +375,16 @@ export default class Widget {
   }
 
   _createWinTemplate(text: string, extraText: string) {
+    const isLongText = text.length > 100;
+    const winTitleClassList = ["win__title"];
+    if (isLongText) {
+      winTitleClassList.push("win__title_compact");
+    }
+    const winTitleClass = winTitleClassList.join(" ");
+
     return `
       <div class="win">
-        <h2 class="win__title">Поздравляем! Вы выиграли <span class="win__item">${text}</span></h2>
+        <h2 class="${winTitleClass}">Поздравляем! Вы выиграли <span class="win__item">${text}</span></h2>
         <p class="win__extra">${extraText}</p>
         <div class="win__buttons">
           <button class="win__button win__button_action_spin button">Крутить ещё</button>

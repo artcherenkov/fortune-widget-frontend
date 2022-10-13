@@ -97,7 +97,8 @@
   widgetScript.type = "text/javascript";
   widgetScript.defer = true;
   // widgetScript.src = WidgetScriptSrc.LOCAL;
-  widgetScript.src = WidgetScriptSrc.DEV;
+  // widgetScript.src = WidgetScriptSrc.DEV;
+  widgetScript.src = WidgetScriptSrc.PROD_UNPKG;
   widgetScript.onload = onWidgetScriptLoad;
 
   document.head.appendChild(widgetScript);

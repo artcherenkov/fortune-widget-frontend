@@ -215,6 +215,11 @@
   line-height: 134%;
 }
 
+.win__title_compact {
+  font-size: 11px;
+  line-height: 120%;
+}
+
 .win__extra {
   font-family: "Montserrat", sans-serif;
   font-style: normal;
@@ -406,6 +411,11 @@
     margin: 14px 0 12px;
   }
 
+  .win__title_compact {
+    font-size: 12px;
+    line-height: 120%;
+  }
+
   .win__extra {
     margin-bottom: 12px;
   }
@@ -416,7 +426,7 @@
   }
 
   .fortune-popup__trigger {
-    margin-top: 30px;
+    margin-top: 52px;
     width: 220px;
   }
 
@@ -430,17 +440,6 @@
   .fortune-popup__content {
     height: 570px;
     padding: 16px 20px;
-  }
-
-  .fortune-popup__title {
-    font-size: 20px;
-    line-height: 24px;
-    margin-bottom: 12px;
-  }
-
-  .fortune-popup__text {
-    font-size: 14px;
-    line-height: 130%;
   }
 
   .fortune-popup__spinner-container {
@@ -461,32 +460,17 @@
     line-height: 20px;
   }
 
-  .fortune-popup__disclaimer {
-    font-size: 10px;
-    line-height: 12px;
-  }
-
-  .win__title {
-    font-size: 14px;
-    line-height: 130%;
-    margin: 14px 0 12px;
-  }
-
-  .win__extra {
-    margin-bottom: 12px;
-  }
-
   .win__button {
     font-size: 12px;
   }
 
-  .fortune-popup__form {
-    padding: 0 4px;
-    margin-top: 40px;
+  .win__title_compact {
+    font-size: 13px;
+    line-height: 120%;
   }
 
   .fortune-popup__trigger {
-    margin-top: 36px;
+    margin-top: 76px;
     width: 240px;
   }
 
@@ -498,4 +482,65 @@
 }
 
 @media screen and (min-width: 428px) {
+  .fortune-popup__content {
+    height: 628px;
+    padding: 16px 20px;
+  }
+
+  .fortune-popup__title {
+    font-size: 22px;
+    line-height: 100%;
+    margin-bottom: 16px;
+  }
+
+  .fortune-popup__text {
+    font-size: 16px;
+    width: 270px;
+  }
+
+  .fortune-popup__spinner-container {
+    transform: translateY(52px);
+  }
+
+  .fortune-popup__spinner-container_translate_off {
+    transform: translateY(18px);
+  }
+
+  .initial-state {
+    margin-top: 56px;
+  }
+
+  .initial-state__trigger {
+    width: 280px;
+    padding: 16px 12px;
+  }
+
+  .win__title {
+    font-size: 15px;
+    line-height: 130%;
+  }
+
+  .win__extra {
+    margin-bottom: 12px;
+  }
+
+  .win__button {
+    font-size: 12px;
+  }
+
+  .fortune-popup__form {
+    padding: 0 8px;
+    margin-top: 58px;
+  }
+
+  .fortune-popup__trigger {
+    margin-top: 84px;
+    width: 260px;
+  }
+
+  .thx {
+    margin-top: 152px;
+    font-size: 20px;
+    line-height: 24px;
+  }
 }
