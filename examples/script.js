@@ -1,5 +1,5 @@
 (function () {
-  const WIDGET_SCRIPT_VERSION = "2.0.27";
+  const WIDGET_SCRIPT_VERSION = "2.0.28";
   const WidgetScriptSrc = {
     LOCAL: "./index.js",
     DEV: "../dist/index.js",

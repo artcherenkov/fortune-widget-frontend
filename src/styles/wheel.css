@@ -131,3 +131,9 @@
     --size: 240px;
   }
 }
+
+@media screen and (min-width: 768px) {
+  .spinner-container {
+    --size: 270px;
+  }
+}

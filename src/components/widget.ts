@@ -212,7 +212,12 @@ export default class Widget {
   _onFormFetched() {
     this._spinButtonElement.disabled = false;
 
-    this._spinnerContainerElement.children[0].remove();
+    if (window.innerWidth < 1024) {
+      this._spinnerContainerElement.children[0].remove();
+    } else {
+      this._spinnerContainerElement.children[1].remove();
+    }
+
     this._renderThxTemplate();
   }
 
@@ -225,9 +230,13 @@ export default class Widget {
   }
 
   _onClaimPrizeBtnClick() {
-    Array.from(this._spinnerContainerElement.children).forEach((c) =>
-      c.remove()
-    );
+    if (window.innerWidth < 1024) {
+      Array.from(this._spinnerContainerElement.children).forEach((c) =>
+        c.remove()
+      );
+    } else {
+      this._spinnerContainerElement.children[1].remove();
+    }
 
     this._renderFormState();
   }

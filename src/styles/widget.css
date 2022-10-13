@@ -353,12 +353,14 @@
   height: 20px;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTIuMzggMi4xNCAxMC40NiAxMC45MjhaIiBmaWxsPSIjNUY2MzY4Ii8+PHBhdGggZD0ibTIuMzggMi4xNCAxMC40NiAxMC45MjgiIHN0cm9rZT0iIzVGNjM2OCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0yLjM4IDEzLjA2OCAxMi44NCAyLjE0WiIgZmlsbD0iIzVGNjM2OCIvPjxwYXRoIGQ9Ik0yLjM4IDEzLjA2OCAxMi44NCAyLjE0IiBzdHJva2U9IiM1RjYzNjgiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4K");
   background-position: center;
+  background-size: cover;
+  background-color: transparent;
+  background-repeat: no-repeat;
   position: absolute;
   top: 12px;
   right: 12px;
   border: none;
-  background-color: transparent;
-  background-repeat: no-repeat;
+
   cursor: pointer;
 }
 
@@ -542,5 +544,127 @@
     margin-top: 152px;
     font-size: 20px;
     line-height: 24px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .fortune-popup__content {
+    min-width: 650px;
+    max-width: 650px;
+    height: 474px;
+    padding: 24px;
+  }
+
+  .fortune-popup__header {
+    margin-bottom: 16px;
+  }
+
+  .fortune-popup__title {
+    text-align: left;
+    font-size: 28px;
+    line-height: 34px;
+    margin-bottom: 12px;
+  }
+
+  .fortune-popup__text {
+    text-align: left;
+    width: auto;
+    max-width: 450px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 130%;
+  }
+
+  .fortune-popup__spinner-container {
+    transform: none;
+    flex-direction: row;
+  }
+
+  .fortune-popup__spinner-container_translate_off {
+    transform: none;
+  }
+
+  .fortune-popup__spinner {
+    margin-right: 18px;
+  }
+
+  .initial-state {
+    width: 100%;
+    margin: 124px 0 0;
+    align-self: flex-start;
+  }
+
+  .initial-state__trigger {
+    margin: 0 auto;
+    width: 220px;
+    padding: 12px;
+  }
+
+  .fortune-popup__disclaimer {
+    font-size: 10px;
+    line-height: 12px;
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+  }
+
+  .fortune-popup__close-btn {
+    width: 24px;
+    height: 24px;
+    top: 24px;
+    right: 24px;
+  }
+
+  .win {
+    height: 100%;
+  }
+
+  .win__title {
+    margin-top: 0;
+    margin-bottom: 14px;
+    font-size: 16px;
+    line-height: 130%;
+  }
+
+  .win__title_compact {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .win__extra {
+    font-size: 12px;
+    margin-bottom: 20px;
+    line-height: 140%;
+  }
+
+  .win__buttons {
+    flex-direction: column;
+  }
+
+  .win__button:last-child {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+  .fortune-popup__form {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .fortune-popup__inputs {
+    padding: 0;
+  }
+
+  .fortune-popup__trigger {
+    margin-top: 24px;
+    font-size: 14px;
+  }
+
+  .thx {
+    align-self: flex-start;
+    font-size: 20px;
+    line-height: 24px;
+    margin-top: 100px;
   }
 }
