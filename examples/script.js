@@ -1,5 +1,5 @@
 (function () {
-  const WIDGET_SCRIPT_VERSION = "2.0.28";
+  const WIDGET_SCRIPT_VERSION = "2.0.29";
   const WidgetScriptSrc = {
     LOCAL: "./index.js",
     DEV: "../dist/index.js",
@@ -98,8 +98,8 @@
   widgetScript.defer = true;
   // widgetScript.src = WidgetScriptSrc.LOCAL;
   // widgetScript.src = WidgetScriptSrc.DEV;
-  // widgetScript.src = WidgetScriptSrc.PROD_UNPKG;
-  widgetScript.src = WidgetScriptSrc.PROD_JSDELIVR;
+  widgetScript.src = WidgetScriptSrc.PROD_UNPKG;
+  // widgetScript.src = WidgetScriptSrc.PROD_JSDELIVR;
   widgetScript.onload = onWidgetScriptLoad;
 
   document.head.appendChild(widgetScript);

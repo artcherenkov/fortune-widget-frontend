@@ -190,6 +190,7 @@ export default class Widget {
     const data = JSON.stringify({
       name: this._widgetName,
       prize: wonPrize.amoText,
+      fullText: wonPrize.fullText,
       ...this._inputElements.reduce((acc, elem) => {
         return { ...acc, [elem.name]: elem.value };
       }, {}),
